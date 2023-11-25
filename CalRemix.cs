@@ -23,6 +23,7 @@ using Terraria.Audio;
 using Terraria.Graphics.Effects;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Materials;
+using System.Reflection;
 
 namespace CalRemix
 {
@@ -149,7 +150,7 @@ namespace CalRemix
             return item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.IsWhip();
         }
         // Defer mod call handling to the extraneous mod call manager.
-        public override object Call(params object[] args) => ModCallManager.Call(args);
+        public override object Call(params object[] args) => ModCallManager.Call(new Caller(Assembly.GetCallingAssembly()), args);
         public static void AddToShop(int type, int price, ref Chest shop, ref int nextSlot, bool condition = true, int specialMoney = 0)
         {
             if (!condition || shop is null) return;
